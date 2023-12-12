@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 
@@ -20,3 +21,19 @@ def blog(request: HttpRequest, slug: str) -> render:
     )
     context = {"post": post}
     return render(request, "blog.html", context)
+
+
+def search(request: HttpRequest) -> render:
+    keword = request.GET.get("keyword")
+    blogs = Blog.objects.filter(
+        Q(title__icontains=keword)
+        | Q(short_description__icontains=keword)
+        | Q(blog_body__icontains=keword),
+        status=1,
+    )
+    context = {
+        "keyword": keword,
+        "blogs": blogs,
+    }
+    print(blogs)
+    return render(request, "search.html", context)
