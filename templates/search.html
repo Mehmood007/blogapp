@@ -8,22 +8,22 @@
 
 <div class="row">
     {% for post in blogs %}
-        <div class="col-md-6">
-            <div class="card border-0" >
-              <div class="card-body">
+    <div class="col-md-6">
+        <div class="card border-0">
+            <div class="card-body">
                 <h3><a href="{% url 'blog' post.slug %}">{{post.title}}</a></h3>
                 <small class="mb-1 text-muted">{{post.updated_at | timesince}} ago | {{post.author}}</small>
                 <p class="card-text">{{post.short_description | truncatechars:20}}</p>
-              </div>
             </div>
         </div>
+    </div>
     {% endfor %}
 
-    
+
     {% if not blogs %}
-        <p class="text-danger">Sorry no related blogs found</p>
+    <p class="text-danger">Sorry no related blogs found</p>
     {% endif %}
-        
-    
-{% endblock %}
-    
+
+
+    {% endblock %}
+</div>

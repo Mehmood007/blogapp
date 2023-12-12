@@ -3,25 +3,25 @@
 
 {% block content %}
 <h3 class="text-uppercase text-warning">
-    Category: {{category}}
+  Category: {{category}}
 </h3>
 <div class="row">
-{% for post in posts %}
-    <div class="col-md-6">
-        <div class="card border-0" >
-          <div class="card-body">
-            <h3><a href="{% url 'blog' post.slug %}">{{post.title}}</a></h3>
-            <small class="mb-1 text-muted">{{post.updated_at | timesince}} ago | {{post.author}}</small>
-            <p class="card-text">{{post.short_description | truncatechars:20}}</p>
-          </div>
-        </div>
+  {% for post in posts %}
+  <div class="col-md-6">
+    <div class="card border-0">
+      <div class="card-body">
+        <h3><a href="{% url 'blog' post.slug %}">{{post.title}}</a></h3>
+        <small class="mb-1 text-muted">{{post.updated_at | timesince}} ago | {{post.author}}</small>
+        <p class="card-text">{{post.short_description | truncatechars:20}}</p>
+      </div>
     </div>
-{% endfor %}
+  </div>
+  {% endfor %}
 
 
-{% if not posts %}
-    <p class="text-danger">No Posts available in above category</p>
-{% endif %}
-    
+  {% if not posts %}
+  <p class="text-danger">No Posts available in above category</p>
+  {% endif %}
+
 </div>
 {% endblock %}
