@@ -16,7 +16,7 @@ def posts_by_category(request: HttpRequest, category_id: int) -> render:
     return render(request, "posts_by_category.html", context)
 
 
-# /<blog-slug>
+# blog/<blog-slug>
 def blog(request: HttpRequest, slug: str) -> render:
     post = get_object_or_404(
         Blog.objects.select_related("category"), slug=slug, status=1
