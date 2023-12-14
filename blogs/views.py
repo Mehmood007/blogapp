@@ -45,7 +45,7 @@ def search(request: HttpRequest) -> render:
         Q(title__icontains=keword)
         | Q(short_description__icontains=keword)
         | Q(blog_body__icontains=keword),
-        status=1,
+        status="Published",
     )
     context = {
         "keyword": keword,
