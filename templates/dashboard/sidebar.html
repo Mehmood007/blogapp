@@ -1,0 +1,17 @@
+<div class="col-md-3">
+    <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
+        <a href="{% url 'dashboard' %}"
+            class="nav-link text-dark mb-2 {% if '/dashboard/' == request.path %}bg-warning {%endif%}">Dashboard</a>
+        <a href="{% url 'dashboard_categories' %}"
+            class="nav-link text-dark mb-2 {% if '/dashboard/categories' == request.path %}bg-warning {%endif%}">Categories</a>
+        <a href="{% url 'dashboard_blogs' %}"
+            class="nav-link text-dark mb-2 {% if '/dashboard/blogs' == request.path %}bg-warning {%endif%}">Blogs</a>
+
+        {% if perms.auth.view_user %}
+        <a href="{% url 'dashboard_users' %}"
+            class="nav-link text-dark mb-2 {% if '/dashboard/users' == request.path %}bg-warning {%endif%}">Users</a>
+
+        {% endif %}
+        <a href="{% url 'logout' %}" class="nav-link text-dark mb-2">Logout</a>
+    </div>
+</div>

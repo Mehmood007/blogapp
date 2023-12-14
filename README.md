@@ -9,6 +9,8 @@
 - View and read different blogs
 - Blogs by category
 - Seach in blogs
+- User Registration and Login
+- Custom Dashboard
 - Admin Panel
 
 
