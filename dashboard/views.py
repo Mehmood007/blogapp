@@ -1,13 +1,14 @@
 import logging
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.defaultfilters import slugify
 
 from blogs.models import Blog, Category
 
-from .forms import BlogPostForm, CategoryForm
+from .forms import AddUserForm, BlogPostForm, CategoryForm, EditUserForm
 
 logging.basicConfig(
     level=logging.ERROR,
@@ -135,3 +136,57 @@ def delete_blog(request: HttpRequest, blog_id: int) -> redirect:
     blog = get_object_or_404(Blog, pk=blog_id)
     blog.delete()
     return redirect("dashboard_blogs")
+
+
+# "dashboard/users"
+@permission_required("dashboard.view_user")
+@login_required(login_url="login")
+def users(request: HttpRequest) -> render:
+    users = User.objects.all()
+    context = {"users": users}
+    return render(request, "dashboard/users.html", context)
+
+
+# "dashboard/users/add"
+@permission_required("dashboard.add_user")
+@login_required(login_url="login")
+def add_user(request: HttpRequest) -> render:
+    if request.method == "POST":
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard_users")
+        else:
+            logging.error(form.errors)
+    form = AddUserForm()
+    context = {"form": form}
+    return render(request, "dashboard/add_user.html", context)
+
+
+# "dashboard/users/edit/<user_id>"
+@permission_required("dashboard.change_user")
+@login_required(login_url="login")
+def edit_user(request: HttpRequest, user_id) -> render:
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == "POST":
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard_users")
+        else:
+            logging.error(form.errors)
+    form = EditUserForm(instance=user)
+    context = {
+        "user": user,
+        "form": form,
+    }
+    return render(request, "dashboard/edit_user.html", context)
+
+
+# "dashboard/categories/delete/<blog_id>"
+@permission_required("dashboard.delete_user")
+@login_required(login_url="login")
+def delete_user(request: HttpRequest, user_id: int) -> redirect:
+    user = get_object_or_404(User, pk=user_id)
+    user.delete()
+    return redirect("dashboard_users")
