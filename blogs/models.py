@@ -44,3 +44,14 @@ class Blog(models.Model):
             if os.path.isfile(self.featured_image.path):
                 os.remove(self.featured_image.path)
         super(Blog, self).delete(*args, **kwargs)
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=250)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.comment}"
