@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -5,6 +7,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from blogs.models import Blog, Category
 
 from .forms import CategoryForm
+
+logging.basicConfig(
+    level=logging.ERROR,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 # "dashboard/"
@@ -33,6 +40,8 @@ def add_category(request: HttpRequest) -> render:
         if form.is_valid():
             form.save()
             return redirect("dashboard_categories")
+        else:
+            logging.error("Invalid form data detected.")
     form = CategoryForm()
     context = {
         "form": form,
@@ -49,6 +58,8 @@ def edit_category(request: HttpRequest, category_id: int) -> render:
         if form.is_valid():
             form.save()
             return redirect("dashboard_categories")
+        else:
+            logging.error("Invalid form data detected.")
     form = CategoryForm(instance=category)
     context = {
         "category": category,

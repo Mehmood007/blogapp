@@ -1,7 +1,14 @@
+import logging
+
 from django.contrib import auth
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
+
+logging.basicConfig(
+    level=logging.ERROR,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 from blogs.models import Blog
 
@@ -33,6 +40,7 @@ def register(request: HttpRequest) -> render:
             form.save()
             return redirect("home")
         else:
+            logging.error("Invalid form data detected.")
             return redirect("register")
 
 
@@ -47,6 +55,10 @@ def login(request: HttpRequest) -> render:
             if user is not None:
                 auth.login(request, user)
                 return redirect("home")
+            else:
+                logging.error("Authentication failed. Invalid credentials.")
+        else:
+            logging.error("Invalid form data detected.")
         return redirect("login")
     else:
         form = AuthenticationForm()
