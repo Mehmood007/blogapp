@@ -4,7 +4,8 @@
             class="nav-link text-dark mb-2 {% if '/dashboard/' == request.path %}bg-warning {%endif%}">Dashboard</a>
         <a href="{% url 'dashboard_categories' %}"
             class="nav-link text-dark mb-2 {% if '/dashboard/categories' == request.path %}bg-warning {%endif%}">Categories</a>
-        <a href="" class="nav-link text-dark mb-2">Blogs</a>
+        <a href="{% url 'dashboard_blogs' %}"
+            class="nav-link text-dark mb-2 {% if '/dashboard/blogs' == request.path %}bg-warning {%endif%}">Blogs</a>
         <a href="" class="nav-link text-dark mb-2">Logout</a>
     </div>
 </div>

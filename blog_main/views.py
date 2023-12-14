@@ -17,8 +17,8 @@ from .forms import RegistrationForm
 
 # "/" # home route
 def home(request: HttpRequest) -> render:
-    featured_posts = Blog.objects.filter(is_featured=True, status=1)
-    posts = Blog.objects.filter(is_featured=False, status=1)
+    featured_posts = Blog.objects.filter(is_featured=True, status="Published")
+    posts = Blog.objects.filter(is_featured=False, status="Published")
     context = {
         "featured_posts": featured_posts,
         "posts": posts,
@@ -40,7 +40,7 @@ def register(request: HttpRequest) -> render:
             form.save()
             return redirect("home")
         else:
-            logging.error("Invalid form data detected.")
+            logging.error(form.errors)
             return redirect("register")
 
 
@@ -56,9 +56,9 @@ def login(request: HttpRequest) -> render:
                 auth.login(request, user)
                 return redirect("home")
             else:
-                logging.error("Authentication failed. Invalid credentials.")
+                logging.warning("Authentication failed. Invalid credentials.")
         else:
-            logging.error("Invalid form data detected.")
+            logging.error(form.errors)
         return redirect("login")
     else:
         form = AuthenticationForm()
