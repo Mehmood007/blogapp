@@ -36,7 +36,7 @@ def categories(request: HttpRequest) -> render:
 
 # "dashboard/categories/add"
 @login_required(login_url="login")
-def add_category(request: HttpRequest) -> render:
+def add_category(request: HttpRequest) -> render or redirect:
     if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -53,7 +53,7 @@ def add_category(request: HttpRequest) -> render:
 
 # "dashboard/categories/edit/<blog_id>"
 @login_required(login_url="login")
-def edit_category(request: HttpRequest, category_id: int) -> render:
+def edit_category(request: HttpRequest, category_id: int) -> render or redirect:
     category = get_object_or_404(Category, pk=category_id)
     if request.method == "POST":
         form = CategoryForm(request.POST, instance=category)
@@ -72,7 +72,7 @@ def edit_category(request: HttpRequest, category_id: int) -> render:
 
 # "dashboard/categories/edit/<blog_id>"
 @login_required(login_url="login")
-def delete_category(request: HttpRequest, category_id: int) -> redirect:
+def delete_category(request: HttpRequest, category_id: int) -> redirect or redirect:
     category = get_object_or_404(Category, pk=category_id)
     category.delete()
     return redirect("dashboard_categories")
@@ -88,7 +88,7 @@ def blogs(request: HttpRequest) -> render:
 
 # "dashboard/blogs/add"
 @login_required(login_url="login")
-def add_blog(request: HttpRequest) -> render:
+def add_blog(request: HttpRequest) -> render or redirect:
     if request.method == "POST":
         form = BlogPostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -110,7 +110,7 @@ def add_blog(request: HttpRequest) -> render:
 
 # "dashboard/blogs/edit/<blog_id>"
 @login_required(login_url="login")
-def edit_blog(request: HttpRequest, blog_id: int) -> render:
+def edit_blog(request: HttpRequest, blog_id: int) -> render or redirect:
     blog = get_object_or_404(Blog, pk=blog_id)
     if request.method == "POST":
         form = BlogPostForm(request.POST, instance=blog)
@@ -132,7 +132,7 @@ def edit_blog(request: HttpRequest, blog_id: int) -> render:
 
 # "dashboard/categories/delete/<blog_id>"
 @login_required(login_url="login")
-def delete_blog(request: HttpRequest, blog_id: int) -> redirect:
+def delete_blog(request: HttpRequest, blog_id: int) -> redirect or redirect:
     blog = get_object_or_404(Blog, pk=blog_id)
     blog.delete()
     return redirect("dashboard_blogs")
@@ -150,7 +150,7 @@ def users(request: HttpRequest) -> render:
 # "dashboard/users/add"
 @permission_required("dashboard.add_user")
 @login_required(login_url="login")
-def add_user(request: HttpRequest) -> render:
+def add_user(request: HttpRequest) -> render or redirect:
     if request.method == "POST":
         form = AddUserForm(request.POST)
         if form.is_valid():
@@ -166,7 +166,7 @@ def add_user(request: HttpRequest) -> render:
 # "dashboard/users/edit/<user_id>"
 @permission_required("dashboard.change_user")
 @login_required(login_url="login")
-def edit_user(request: HttpRequest, user_id) -> render:
+def edit_user(request: HttpRequest, user_id) -> render or redirect:
     user = get_object_or_404(User, pk=user_id)
     if request.method == "POST":
         form = EditUserForm(request.POST, instance=user)

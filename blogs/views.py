@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Blog, Category, Comment
 
 
-# cateogry/<category_id>
+# category/<category_id>
 def posts_by_category(request: HttpRequest, category_id: int) -> render:
     posts = Blog.objects.filter(status="Published", category=category_id)
     category = get_object_or_404(Category, pk=category_id)
@@ -38,18 +38,17 @@ def blog(request: HttpRequest, slug: str) -> render:
     return render(request, "blog.html", context)
 
 
-# blogs/search/?keyword=<serached_keyword>
+# blogs/search/?keyword=<searched_keyword>
 def search(request: HttpRequest) -> render:
-    keword = request.GET.get("keyword")
+    keyword = request.GET.get("keyword")
     blogs = Blog.objects.filter(
-        Q(title__icontains=keword)
-        | Q(short_description__icontains=keword)
-        | Q(blog_body__icontains=keword),
+        Q(title__icontains=keyword)
+        | Q(short_description__icontains=keyword)
+        | Q(blog_body__icontains=keyword),
         status="Published",
     )
     context = {
-        "keyword": keword,
+        "keyword": keyword,
         "blogs": blogs,
     }
-    print(blogs)
     return render(request, "search.html", context)

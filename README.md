@@ -2,13 +2,13 @@
 
 ## Description
 
-**Blog app provides different blogs for not only for reading but user can also publish their own blugs. Blugs are destributed into  different categories. This makes reader work easy. Reader can easily navigate through different categories.**
+**Blog app provides different blogs for not only for reading but user can also publish their own blogs. Blogs are distributed into  different categories. This makes reader work easy. Reader can easily navigate through different categories.**
 
 ## Features
 
 - View and read different blogs
 - Blogs by category
-- Seach in blogs
+- Search in blogs
 - Comment on blog
 - User Registration and Login
 - Custom Dashboard
@@ -30,7 +30,7 @@
 
 
 - **Install Dependencies**  
-  First make sure virtual enviroment is activated  
+  First make sure virtual environment is activated  
   `pip install -r requirements.txt`
 
 - **Run Migrations in app directory**  
